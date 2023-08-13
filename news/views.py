@@ -39,12 +39,12 @@ class PostDetail(DetailView):
     context_object_name = 'post'
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     template_name = 'create.html'
     form_class = NewsForm
 
 
-class PostUpdateView(UpdateView, LoginRequiredMixin):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'create.html'
     form_class = NewsForm
 
@@ -57,6 +57,7 @@ class PostDeleteView(DeleteView):
     template_name = 'delete.html'
     queryset = Post.objects.all()
     success_url = reverse_lazy('news:posts')
+
 
 class PostSearch(ListView):
     model = Post
