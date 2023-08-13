@@ -1,0 +1,35 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+{% block title %} News list {% endblock title %}
+{% block content %}
+<h2>Вы действительно хотите удалить данную новость?</h2>
+   <table>
+        <tr>
+            <td>
+                <b> {{ post.name|censor }} </b>
+
+                <i>{{ post.dateCreation|date:'m-d-Y g:i'  }}</i>
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+                {{ post.text|censor }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>
+                    <i>{{ post.postCategory }}</i>  |
+
+                    <b>{{ post.author }}</b>
+                </p>
+            </td>
+
+        </tr>
+    </table>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="подтвердить"></form>
+{% endblock content %}

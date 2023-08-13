@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}.
+{% block title %}
+Post
+{% endblock title %}
+{% block content %}
+<h1>{{ post.title }}</h1>
+<i>{{ post.dateCreation|date:'m-d-Y g:i'  }}</i>
+<div>{{ post.text }}</div>
+<a href="{% url 'news:edit' post.id %}">
+    Редактировать пост
+      </a>
+<a href="{% url 'news:delete' post.id %}">
+           Удалить пост
+       </a>
+{% endblock content %}

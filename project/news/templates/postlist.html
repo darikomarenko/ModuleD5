@@ -1,0 +1,13 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}.
+{% block title %}
+Posts
+{% endblock title %}
+
+{% block content %}
+<h1>Все посты</h1>
+{{ posts }}
+<a href="{% url 'news:create' %}">
+    Создать пост
+      </a>
+{% endblock content %}
