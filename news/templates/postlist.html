@@ -10,4 +10,13 @@ Posts
 <a href="{% url 'news:create' %}">
     Создать пост
       </a>
+
+{% if is_not_authors %}
+    <button><a class="btn btn-primary" href="{% url 'news:be_author' %}">Стать автором</a></button>
+{% else %}
+    <h3>Вы уже являетесь автором</h3>
+{% endif %}
+
 {% endblock content %}
+
+

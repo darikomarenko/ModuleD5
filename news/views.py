@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,22 +17,35 @@ class PostList(ListView):
     context_object_name = 'posts'
     ordering = ['-dateCreation']
     paginate_by = 3
+    form_class = NewsForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = NewsFilter(self.request.GET, queryset=self.get_queryset())
 
-        context['categories'] = Category.objects.all()
-        context['form'] = NewsForm()
+        context['form'] = self.form_class()
+        context['is_not_authors'] = not self.request.user.groups.filter(name='authors').exists()
         return context
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
+        form = self.NewsForm(request.POST)
 
         if form.is_valid():
             form.save()
+            return redirect('news')
+        else:
+            context = self.get_context_data(**kwargs)
+            context['form'] = form
+            return self.render_to_response(context)
 
-        return super().get(request, *args, **kwargs)
+
+@login_required
+def i_am_author(request):
+    user = request.user
+    authors_group = Group.objects.get(name='authors')
+    if not request.user.groups.filter(name='authors').exists():
+        authors_group.user_set.add(user)
+    return redirect('/posts')
 
 
 class PostDetail(DetailView):
@@ -62,7 +77,7 @@ class PostDeleteView(DeleteView):
 class PostSearch(ListView):
     model = Post
     template_name = 'search.html'
-    context_object_name = 'posts'
+    context_object_name = 'search'
     ordering = ['-dateCreation']
     paginate_by = 3
 
