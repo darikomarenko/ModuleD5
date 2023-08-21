@@ -6,7 +6,7 @@ class NewsFilter(FilterSet):
     class Meta:
         model = Post
         fields = {
-            'dateCreation': ['gt'],
-            'author': ['gt'],
-            'title': ['icontains'],
+            "dateCreation": ["gt"],
+            "author": ["gt"],
+            "title": ["icontains"],
         }

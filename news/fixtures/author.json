@@ -1,0 +1,26 @@
+[
+  {
+    "model": "news.author",
+    "pk": 1,
+    "fields": {
+      "authorUser": 2,
+      "ratingAutor": 0
+    }
+  },
+  {
+    "model": "news.author",
+    "pk": 2,
+    "fields": {
+      "authorUser": 5,
+      "ratingAutor": 0
+    }
+  },
+  {
+    "model": "news.author",
+    "pk": 3,
+    "fields": {
+      "authorUser": 3,
+      "ratingAutor": 0
+    }
+  }
+]

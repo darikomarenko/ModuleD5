@@ -1,0 +1,23 @@
+[
+  {
+    "model": "news.category",
+    "pk": 1,
+    "fields": {
+      "name": "IT"
+    }
+  },
+  {
+    "model": "news.category",
+    "pk": 2,
+    "fields": {
+      "name": "Medicine"
+    }
+  },
+  {
+    "model": "news.category",
+    "pk": 3,
+    "fields": {
+      "name": "Education"
+    }
+  }
+]

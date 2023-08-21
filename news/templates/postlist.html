@@ -1,20 +1,64 @@
 {% extends 'flatpages/default.html' %}
 {% load custom_filters %}.
 {% block title %}
-Posts
-{% endblock title %}
-
-{% block content %}
 <h1>Все посты</h1>
-{{ posts }}
-<a href="{% url 'news:create' %}">
+{% endblock title %}
+{% block content %}
+<h2>Здравствуйте {{request.user.username}}!</h2>
+<h3>Количество новостей: {{ posts|length }}</h3>
+<tr>
+    <td>
+        Заголовок
+    </td>
+    <td>
+        Категория
+    </td>
+    <td>
+        Дата публикации
+    </td>
+    <td>
+        Превью статьи
+    </td>
+</tr>
+{% for post in posts %}
+<tr>
+    <td>
+        <a href="{% url 'news:post' post.id %}">{{ post.title }}</a>
+    </td>
+    <td>
+        {% for category in post.postCategory.all %}
+        <a href="{% url 'news:category' category.id %}">{{category}}</a>
+        {% endfor %}
+    </td>
+    <td>
+        {{ post.dateCreation|date:'M-d-Y H:m'}}
+    </td>
+    <td>
+        {{ post.text|truncatechars:50|censor }}
+    </td>
+</tr>
+{% endfor %}
+<br><br>
+<a class="btn btn-primary" href="{% url 'news:create' %}">
     Создать пост
-      </a>
-
+</a>
+<br><br>
+<a class="btn btn-primary" href="{% url 'login' %}">
+    Войти в аккаунт
+</a>
+<br><br>
+<a class="btn btn-primary" href="{% url 'logout' %}">
+    Выйти из аккаунта
+</a>
+<br><br>
+<a class="btn btn-primary" href="{% url 'signup' %}">
+    Регистрация
+</a>
+<br><br>
 {% if is_not_authors %}
-    <button><a class="btn btn-primary" href="{% url 'news:be_author' %}">Стать автором</a></button>
+<button><a class="btn btn-primary" href="{% url 'news:be_author' %}">Стать автором</a></button>
 {% else %}
-    <h3>Вы уже являетесь автором</h3>
+<h3>Вы уже являетесь автором</h3>
 {% endif %}
 
 {% endblock content %}

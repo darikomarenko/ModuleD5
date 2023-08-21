@@ -16,10 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from allauth.account import views as allauth_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('pages/', include('django.contrib.flatpages.urls')),
-    path('posts/', include(('news.urls', 'news'), namespace='news')),
-    path('accounts/', include('allauth.urls')),
+    path("admin/", admin.site.urls),
+    path("pages/", include("django.contrib.flatpages.urls")),
+    path("posts/", include(("news.urls", "news"), namespace="news")),
+    path("accounts/", include("allauth.urls")),
+    path("accounts/logout/", allauth_views.LogoutView.as_view(), name="logout"),
+    path("accounts/login/", allauth_views.LoginView.as_view(), name="login"),
+    path("accounts/signup/", allauth_views.SignupView.as_view(), name="signup"),
 ]
