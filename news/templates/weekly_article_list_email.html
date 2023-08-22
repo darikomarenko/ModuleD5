@@ -6,7 +6,7 @@
     <title>Еженедельный список новых статей</title>
 </head>
 <body>
-        <h2>Здравствуйте, {{ sub.username }}!</h2>
+        <h2>Здравствуйте, {{ subscriber.username }}!</h2>
         <p>Ниже представлен список новых статей по категории {{ category.name }} за последнюю неделю:</p>
         <ul>
             {% for post in post_list %}

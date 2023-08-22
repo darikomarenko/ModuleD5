@@ -29,7 +29,7 @@ class PostList(ListView):
     template_name = "postlist.html"
     context_object_name = "posts"
     ordering = ["-dateCreation"]
-    paginate_by = 3
+    paginate_by = 4
     form_class = NewsForm
 
     def get_context_data(self, **kwargs):
@@ -79,14 +79,14 @@ class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
         self.object = form.save()
 
-        self.postCategory_list = self.object.postCategory.all()
+        post_categories = self.object.category.all()
 
-        for category in self.postCategory_list:
-            for sub in category.subscribers.all():
+        for category in post_categories:
+            for subscriber in category.subscriber.all():
                 html_content = render_to_string(
                     "send_mail_subscribe_to_news.html",
                     {
-                        "user": sub,
+                        "user": subscriber,
                         "post": self.object,
                     },
                 )
@@ -95,10 +95,10 @@ class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
                     subject=f"{self.object.title}",
                     body=self.object.text,
                     from_email="dariastore@yandex.ru",
-                    to=[f"{sub.email}"],
+                    to=[f"{subscriber.email}"],
                 )
                 msg.attach_alternative(html_content, "text/html")
-                print(html_content)
+                msg.send()
 
         return HttpResponseRedirect(self.get_success_url())
 
@@ -123,7 +123,7 @@ class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 class PostDeleteView(DeleteView):
     template_name = "delete.html"
     queryset = Post.objects.all()
-    success_url = reverse_lazy("news:posts")
+    success_url = reverse_lazy("news:list")
 
 
 class PostSearch(ListView):

@@ -14,7 +14,7 @@ from .views import (
 )
 
 urlpatterns = [
-    path("", PostList.as_view()),
+    path("", PostList.as_view(), name="list"),
     path("search/", PostSearch.as_view(), name="search"),
     path("<int:pk>", PostDetail.as_view(), name="post"),
     path("create", PostCreateView.as_view(), name="create"),
