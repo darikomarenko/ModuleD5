@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 def send_weekly_article_list():
-    start_date = datetime.today() - timedelta(minutes=1)
+    start_date = datetime.today() - timedelta(days=6)
     this_weeks_posts = Post.objects.filter(dateCreation__gt=start_date)
     for category in Category.objects.all():
         post_list = this_weeks_posts.filter(category=category)
